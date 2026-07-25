@@ -24,7 +24,49 @@ connectToDB()
 
 
 // middlewares
-server.use(cors({origin: config.ORIGIN, credentials: true, exposedHeaders: ['X-Total-Count'], methods: ['GET', 'POST', 'PATCH', 'DELETE']}))
+const normalizeOrigin = (origin) => {
+    if (!origin || typeof origin !== 'string') return origin;
+    try {
+        const u = new URL(origin);
+        return `${u.protocol}//${u.host}`;
+    } catch {
+        return origin;
+    }
+};
+
+const allowedOrigins = [
+    config.ORIGIN,
+    ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean) : [])
+];
+
+const isVercelPreviewOrigin = (origin) => {
+    try {
+        const u = new URL(origin);
+        if (u.hostname.endsWith('.vercel.app')) {
+            const parts = u.hostname.split('.');
+            if (parts.length >= 3) {
+                const subdomain = parts.slice(0, -2).join('.');
+                return subdomain === 'full-stack-advanced-ecommerce-system' || subdomain.startsWith('full-stack-advanced-ecommerce-system-');
+            }
+        }
+    } catch {}
+    return false;
+};
+
+const getCorsOrigin = () => {
+    const origins = allowedOrigins.map(s => normalizeOrigin(s)).filter(Boolean);
+    if (origins.length === 0) return true;
+    return (origin, callback) => {
+        const normalized = normalizeOrigin(origin);
+        if (!origin || origins.includes(normalized) || isVercelPreviewOrigin(normalized)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    };
+};
+
+server.use(cors({origin: getCorsOrigin(), credentials: true, exposedHeaders: ['X-Total-Count'], methods: ['GET', 'POST', 'PATCH', 'DELETE']}))
 server.use(express.json())
 server.use(cookieParser())
 server.use(morgan("tiny"))
