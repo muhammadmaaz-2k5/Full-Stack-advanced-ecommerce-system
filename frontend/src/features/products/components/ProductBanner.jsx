@@ -1,37 +1,32 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/autoplay';
-import MobileStepper from '@mui/material/MobileStepper';
-import { Box, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { Box } from '@mui/material';
 
 export const ProductBanner = ({images}) => {
-    const theme=useTheme()
-
-    const maxSteps = images.length;
+    if (!images || images.length === 0) return null;
 
   return (
-    <>
-    <Swiper
-      modules={[Autoplay]}
-      autoplay={{ delay: 3000, disableOnInteraction: false }}
-      style={{overflow:"hidden", width:'100%', height:'100%' }}
-      slidesPerView={1}
-    >
-        {
-        images.map((image,index) => (
-        <SwiperSlide key={index}>
-            <div style={{width:"100%",height:'100%'}}>
-                <Box component="img" sx={{width:'100%',objectFit:"contain"}} src={image} alt={'Banner Image'} />
-            </div>
-        </SwiperSlide>
-        ))
-        }
-    </Swiper>
-    <div style={{alignSelf:'center'}}>
-        <MobileStepper steps={maxSteps} position="static" />
-    </div>
-    </>
+    <Box sx={{overflow:"hidden", width:'100%', height:'100%', position:'relative' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                transition: 'transform 0.5s ease-in-out',
+                width: `${images.length * 100}%`,
+                animation: `slideShow ${5 / images.length}s infinite alternate`,
+            }}
+        >
+            {
+            images.map((image, index) => (
+                <Box key={index} sx={{width: `${100 / images.length}%`, flexShrink: 0}}>
+                    <Box sx={{width:'100%',height:'100%', objectFit: "contain", aspectRatio: 1}} component="img" src={image} alt={'Banner Image'} />
+                </Box>
+            ))
+            }
+        </Box>
+        <style>{`
+            @keyframes slideShow {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-${((images.length - 1) / images.length) * 100}%); }
+            }
+        `}</style>
+    </Box>
   )
 }

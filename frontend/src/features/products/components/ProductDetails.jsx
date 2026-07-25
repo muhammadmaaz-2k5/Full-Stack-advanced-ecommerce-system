@@ -17,11 +17,6 @@ import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItem
 import { useTheme } from '@mui/material'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/autoplay';
-import MobileStepper from '@mui/material/MobileStepper';
 import Lottie from 'lottie-react'
 import {loadingAnimation} from '../../../assets'
 
@@ -169,22 +164,6 @@ export const ProductDetails = () => {
         }
     }
 
-    const [activeStep, setActiveStep] = React.useState(0);
-    const maxSteps = product?.images.length;
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleStepChange = (step) => {
-        setActiveStep(step);
-    };
-    
-
   return (
     <>
     {!(productFetchStatus==='rejected' && reviewFetchStatus==='rejected') && <Stack sx={{justifyContent:'center',alignItems:'center',mb:'2rem',rowGap:"2rem"}}>
@@ -218,24 +197,30 @@ export const ProductDetails = () => {
                             {
                                 is1420?
                                 <Stack width={is480?"100%":is990?'400px':"500px"} >
-                                    <Swiper
-                                      modules={[Autoplay]}
-                                      autoplay={{ delay: 3000, disableOnInteraction: false }}
-                                      style={{ width: '100%', height: '100%', overflow: 'hidden' }}
-                                      slidesPerView={1}
-                                    >
-                                        {
-                                        product?.images.map((image,index) => (
-                                        <SwiperSlide key={index}>
-                                            <div style={{width:"100%",height:'100%'}}>
-                                                <Box component="img" sx={{width:'100%',objectFit:"contain",overflow:"hidden",aspectRatio:1/1}} src={image} alt={product?.title} />
-                                            </div>
-                                        </SwiperSlide>
-                                        ))
-                                        }
-                                    </Swiper>
-
-                                    <MobileStepper steps={maxSteps} position="static" activeStep={activeStep} nextButton={<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1} >Next{theme.direction === 'rtl' ? (<KeyboardArrowLeft />) : (<KeyboardArrowRight />)}</Button>} backButton={<Button size="small" onClick={handleBack} disabled={activeStep === 0}>{theme.direction === 'rtl' ? (<KeyboardArrowRight />) : (<KeyboardArrowLeft />)}Back</Button>}/>
+                                    <Box sx={{position:'relative', width: '100%', overflow: 'hidden'}}>
+                                        <Box sx={{display:'flex', transition: 'transform 0.3s ease', transform: `translateX(-${selectedImageIndex * 100}%)`}}>
+                                            {
+                                            product?.images.map((image, index) => (
+                                                <Box key={index} sx={{width: '100%', flexShrink: 0}}>
+                                                    <Box component="img" sx={{width:'100%',objectFit:"contain",overflow:"hidden",aspectRatio:1/1}} src={image} alt={product?.title} />
+                                                </Box>
+                                            ))
+                                            }
+                                        </Box>
+                                        {selectedImageIndex > 0 && (
+                                            <Button size="small" onClick={() => setSelectedImageIndex(selectedImageIndex - 1)} sx={{position:'absolute',left:8,top:'50%',transform:'translateY(-50%)'}}>{theme.direction === 'rtl' ? (<KeyboardArrowRight />) : (<KeyboardArrowLeft />)}</Button>
+                                        )}
+                                        {selectedImageIndex < (product?.images?.length || 0) - 1 && (
+                                            <Button size="small" onClick={() => setSelectedImageIndex(selectedImageIndex + 1)} sx={{position:'absolute',right:8,top:'50%',transform:'translateY(-50%)'}}>{theme.direction === 'rtl' ? (<KeyboardArrowLeft />) : (<KeyboardArrowRight />)}</Button>
+                                        )}
+                                    </Box>
+                                    {product?.images?.length > 1 && (
+                                        <Box sx={{display:'flex', justifyContent:'center', gap:1, mt:1}}>
+                                            {product.images.map((_, idx) => (
+                                                <Box key={idx} sx={{width:8,height:8,borderRadius:'50%',bgcolor:idx===selectedImageIndex?'primary.main':'grey.400',cursor:'pointer'}} onClick={() => setSelectedImageIndex(idx)} />
+                                            ))}
+                                        </Box>
+                                    )}
                                 </Stack>
                                 :
                                 <div style={{width:"100%"}}>
