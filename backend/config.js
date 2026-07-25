@@ -11,6 +11,7 @@ const config = {
   COOKIE_EXPIRATION_DAYS: process.env.COOKIE_EXPIRATION_DAYS || "30",
   SECRET_KEY: process.env.SECRET_KEY || "your-secret-key",
   PRODUCTION: process.env.PRODUCTION || "false",
+  BYPASS_OTP: process.env.BYPASS_OTP || "false",
 };
 
 module.exports = config;

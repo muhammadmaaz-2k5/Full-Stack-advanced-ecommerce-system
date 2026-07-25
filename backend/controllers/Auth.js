@@ -76,6 +76,12 @@ exports.verifyOtp = async (req, res) => {
             return res.status(404).json({ message: 'User not Found, for which the otp has been generated' })
         }
 
+        if (config.BYPASS_OTP === 'true') {
+            const verifiedUser = await User.findByIdAndUpdate(isValidUserId._id, { isVerified: true }, { new: true })
+            await Otp.deleteMany({ user: isValidUserId._id })
+            return res.status(200).json(sanitizeUser(verifiedUser))
+        }
+
         const isOtpExisting = await Otp.findOne({ user: isValidUserId._id })
 
         if (!isOtpExisting) {
@@ -108,6 +114,10 @@ exports.resendOtp = async (req, res) => {
 
         if (!existingUser) {
             return res.status(404).json({ "message": "User not found" })
+        }
+
+        if (config.BYPASS_OTP === 'true') {
+            return res.status(201).json({ 'message': "OTP bypass enabled" })
         }
 
         await Otp.deleteMany({ user: existingUser._id })
