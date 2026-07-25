@@ -63,11 +63,6 @@ export const demoLoginAsync=createAsyncThunk('auth/demoLoginAsync',async()=>{
     return res
 })
 
-export const demoLoginAsync=createAsyncThunk('auth/demoLoginAsync',async()=>{
-    const res=await demoLogin()
-    return res
-})
-
 export const logoutAsync=createAsyncThunk("auth/logoutAsync",async()=>{
     const res=await logout()
     return res
