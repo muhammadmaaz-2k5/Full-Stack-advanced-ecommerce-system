@@ -109,9 +109,12 @@ exports.verifyOtp = async (req, res) => {
 
 exports.resendOtp = async (req, res) => {
     try {
+        const userId = req.body.user
+        if (!userId) {
+            return res.status(400).json({ "message": "User id is required" })
+        }
 
-        const existingUser = await User.findById(req.body.user)
-
+        const existingUser = await User.findById(userId)
         if (!existingUser) {
             return res.status(404).json({ "message": "User not found" })
         }
@@ -125,15 +128,15 @@ exports.resendOtp = async (req, res) => {
         const otp = generateOTP()
         const hashedOtp = await bcrypt.hash(otp, 10)
 
-        const newOtp = new Otp({ user: req.body.user, otp: hashedOtp, expiresAt: Date.now() + parseInt(config.OTP_EXPIRATION_TIME) })
+        const newOtp = new Otp({ user: existingUser._id, otp: hashedOtp, expiresAt: Date.now() + parseInt(config.OTP_EXPIRATION_TIME) })
         await newOtp.save()
 
         await sendMail(existingUser.email, `OTP Verification for Your MERN-AUTH-REDUX-TOOLKIT Account`, `Your One-Time Password (OTP) for account verification is: <b>${otp}</b>.</br>Do not share this OTP with anyone for security reasons`)
 
         res.status(201).json({ 'message': "OTP sent" })
     } catch (error) {
-        res.status(500).json({ 'message': "Some error occured while resending otp, please try again later" })
         console.log(error);
+        res.status(500).json({ 'message': "Some error occured while resending otp, please try again later" })
     }
 }
 

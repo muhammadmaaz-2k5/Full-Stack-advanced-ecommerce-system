@@ -40,6 +40,10 @@ export const OtpVerfication = () => {
         dispatch(verifyOtpAsync(cred))
     }
 
+    const handleBypassOtp = () => {
+        dispatch(verifyOtpAsync({ otp: '1234', userId: loggedInUser?._id }))
+    }
+    
     // handles resend otp error
     useEffect(()=>{
         if(resendOtpError){
@@ -102,6 +106,7 @@ export const OtpVerfication = () => {
                             </Stack>
                        </Stack>
                         <LoadingButton loading={otpVerificationStatus==='pending'}  type='submit' fullWidth variant='contained'>Verify</LoadingButton>
+                        <LoadingButton onClick={handleBypassOtp} loading={otpVerificationStatus==='pending'} fullWidth variant='outlined' color="secondary">Bypass OTP</LoadingButton>
                     </Stack>
                 ):
                 <>

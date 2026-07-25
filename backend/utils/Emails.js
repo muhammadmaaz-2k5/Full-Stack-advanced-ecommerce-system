@@ -10,6 +10,10 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.sendMail = async (receiverEmail, subject, body) => {
+  if (!config.EMAIL || !config.PASSWORD) {
+    console.log("sendMail skipped: EMAIL or PASSWORD not configured");
+    return;
+  }
   try {
     await transporter.sendMail({
       from: config.EMAIL,
@@ -19,6 +23,5 @@ exports.sendMail = async (receiverEmail, subject, body) => {
     });
   } catch (error) {
     console.log("sendMail failed:", error.message);
-    console.log(body);
   }
 };
