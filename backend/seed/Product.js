@@ -40,7 +40,7 @@ const products = [
     ],
     isDeleted: false,
     updatedAt: "2024-02-07T09:22:57.840Z",
-    stockQuantityQuantity: 5,
+    stockQuantity: 5,
   },
   {
     _id: "65a7e45902e12c44f5994450",
