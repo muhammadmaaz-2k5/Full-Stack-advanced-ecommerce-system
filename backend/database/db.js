@@ -1,11 +1,11 @@
-require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
+const config = require('../config');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = config.SUPABASE_URL;
+const supabaseKey = config.SUPABASE_SERVICE_ROLE_KEY || config.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-    console.error("Missing Supabase URL or Key in environment variables");
+    console.error("Missing Supabase URL or Key in config");
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
