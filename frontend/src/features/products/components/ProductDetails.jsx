@@ -17,8 +17,10 @@ import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItem
 import { useTheme } from '@mui/material'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/autoplay';
 import MobileStepper from '@mui/material/MobileStepper';
 import Lottie from 'lottie-react'
 import {loadingAnimation} from '../../../assets'
@@ -26,7 +28,6 @@ import {loadingAnimation} from '../../../assets'
 
 const SIZES=['XS','S','M','L','XL']
 const COLORS=['#020202','#F6F6F6','#B82222','#BEA9A9','#E2BB8D']
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 
 export const ProductDetails = () => {
@@ -217,21 +218,22 @@ export const ProductDetails = () => {
                             {
                                 is1420?
                                 <Stack width={is480?"100%":is990?'400px':"500px"} >
-                                    <AutoPlaySwipeableViews width={'100%'} height={'100%'} axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={activeStep} onChangeIndex={handleStepChange} enableMouseEvents >
+                                    <Swiper
+                                      modules={[Autoplay]}
+                                      autoplay={{ delay: 3000, disableOnInteraction: false }}
+                                      style={{ width: '100%', height: '100%', overflow: 'hidden' }}
+                                      slidesPerView={1}
+                                    >
                                         {
                                         product?.images.map((image,index) => (
-                                        <div key={index} style={{width:"100%",height:'100%'}}>
-                                            {
-                                            Math.abs(activeStep - index) <= 2 
-                                                ?
+                                        <SwiperSlide key={index}>
+                                            <div style={{width:"100%",height:'100%'}}>
                                                 <Box component="img" sx={{width:'100%',objectFit:"contain",overflow:"hidden",aspectRatio:1/1}} src={image} alt={product?.title} />
-                                                :
-                                                null
-                                            }
-                                        </div>
+                                            </div>
+                                        </SwiperSlide>
                                         ))
                                         }
-                                    </AutoPlaySwipeableViews>
+                                    </Swiper>
 
                                     <MobileStepper steps={maxSteps} position="static" activeStep={activeStep} nextButton={<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1} >Next{theme.direction === 'rtl' ? (<KeyboardArrowLeft />) : (<KeyboardArrowRight />)}</Button>} backButton={<Button size="small" onClick={handleBack} disabled={activeStep === 0}>{theme.direction === 'rtl' ? (<KeyboardArrowRight />) : (<KeyboardArrowLeft />)}Back</Button>}/>
                                 </Stack>

@@ -1,49 +1,36 @@
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/autoplay';
 import MobileStepper from '@mui/material/MobileStepper';
 import { Box, useTheme } from '@mui/material';
 import { useState } from 'react';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
 export const ProductBanner = ({images}) => {
-
     const theme=useTheme()
 
-    const [activeStep, setActiveStep] = useState(0);
     const maxSteps = images.length;
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleStepChange = (step) => {
-        setActiveStep(step);
-    };
 
   return (
     <>
-    <AutoPlaySwipeableViews style={{overflow:"hidden"}} width={'100%'} height={'100%'} axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={activeStep} onChangeIndex={handleStepChange} enableMouseEvents >
+    <Swiper
+      modules={[Autoplay]}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      style={{overflow:"hidden", width:'100%', height:'100%' }}
+      slidesPerView={1}
+    >
         {
         images.map((image,index) => (
-        <div key={index} style={{width:"100%",height:'100%'}}>
-            {
-            Math.abs(activeStep - index) <= 2 
-                ?
+        <SwiperSlide key={index}>
+            <div style={{width:"100%",height:'100%'}}>
                 <Box component="img" sx={{width:'100%',objectFit:"contain"}} src={image} alt={'Banner Image'} />
-                :
-                    null
-            }
-        </div>
+            </div>
+        </SwiperSlide>
         ))
         }
-    </AutoPlaySwipeableViews>
+    </Swiper>
     <div style={{alignSelf:'center'}}>
-        <MobileStepper steps={maxSteps} position="static" activeStep={activeStep}/>
+        <MobileStepper steps={maxSteps} position="static" />
     </div>
     </>
   )
