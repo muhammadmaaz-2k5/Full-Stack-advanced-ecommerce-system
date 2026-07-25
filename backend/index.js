@@ -24,7 +24,31 @@ connectToDB()
 
 
 // middlewares
-server.use(cors({origin:process.env.ORIGIN,credentials:true,exposedHeaders:['X-Total-Count'],methods:['GET','POST','PATCH','DELETE']}))
+const normalizeOrigin = (origin) => {
+    if (!origin || typeof origin !== 'string') return origin;
+    try {
+        const u = new URL(origin);
+        return `${u.protocol}//${u.host}`;
+    } catch {
+        return origin;
+    }
+};
+
+const getCorsOrigin = () => {
+    const raw = process.env.ALLOWED_ORIGINS || process.env.ORIGIN;
+    if (!raw) return true;
+    const origins = raw.split(',').map(s => normalizeOrigin(s.trim())).filter(Boolean);
+    if (origins.length === 1) return origins[0];
+    return (origin, callback) => {
+        if (!origin || origins.includes(normalizeOrigin(origin))) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    };
+};
+
+server.use(cors({origin: getCorsOrigin(), credentials: true, exposedHeaders: ['X-Total-Count'], methods: ['GET', 'POST', 'PATCH', 'DELETE']}));
 server.use(express.json())
 server.use(cookieParser())
 server.use(morgan("tiny"))
