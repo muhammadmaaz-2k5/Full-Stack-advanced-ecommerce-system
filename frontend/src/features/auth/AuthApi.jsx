@@ -56,6 +56,14 @@ export const checkAuth=async(cred)=>{
         throw error.response.data
     }
 }
+export const demoLogin=async()=>{
+    try {
+        const res=await axiosi.get("auth/demo-login")
+        return res.data
+    } catch (error) {
+        throw error.response.data
+    }
+}
 export const logout=async()=>{
     try {
         const res=await axiosi.get("auth/logout")

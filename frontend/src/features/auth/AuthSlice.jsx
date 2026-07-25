@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import { checkAuth, forgotPassword, login, logout, resendOtp, resetPassword, signup, verifyOtp } from './AuthApi'
+import { checkAuth, demoLogin, forgotPassword, login, logout, resendOtp, resetPassword, signup, verifyOtp } from './AuthApi'
 
 const initialState={
     status:"idle",
@@ -21,7 +21,8 @@ const initialState={
     resetPasswordSuccessMessage:null,
     resetPasswordError:null,
     successMessage:null,
-    isAuthChecked:false
+    isAuthChecked:false,
+    demoLoginStatus:"idle"
 }
 
 export const signupAsync=createAsyncThunk('auth/signupAsync',async(cred)=>{
@@ -54,6 +55,16 @@ export const resetPasswordAsync=createAsyncThunk('auth/resetPasswordAsync',async
 
 export const checkAuthAsync=createAsyncThunk('auth/checkAuthAsync',async()=>{
     const res=await checkAuth()
+    return res
+})
+
+export const demoLoginAsync=createAsyncThunk('auth/demoLoginAsync',async()=>{
+    const res=await demoLogin()
+    return res
+})
+
+export const demoLoginAsync=createAsyncThunk('auth/demoLoginAsync',async()=>{
+    const res=await demoLogin()
     return res
 })
 
@@ -223,6 +234,19 @@ const authSlice=createSlice({
                 state.errors=action.error
                 state.isAuthChecked=true
             })
+
+            .addCase(demoLoginAsync.pending,(state)=>{
+                state.demoLoginStatus='pending'
+            })
+            .addCase(demoLoginAsync.fulfilled,(state,action)=>{
+                state.demoLoginStatus='fullfilled'
+                state.loggedInUser=action.payload
+                state.isAuthChecked=true
+            })
+            .addCase(demoLoginAsync.rejected,(state,action)=>{
+                state.demoLoginStatus='rejected'
+                state.errors=action.error
+            })
             
     }
 })
@@ -249,9 +273,10 @@ export const selectForgotPasswordError=(state)=>state.AuthSlice.forgotPasswordEr
 export const selectResetPasswordStatus=(state)=>state.AuthSlice.resetPasswordStatus
 export const selectResetPasswordSuccessMessage=(state)=>state.AuthSlice.resetPasswordSuccessMessage
 export const selectResetPasswordError=(state)=>state.AuthSlice.resetPasswordError
+export const selectDemoLoginStatus=(state)=>state.AuthSlice.demoLoginStatus
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus,clearForgotPasswordError,clearForgotPasswordSuccessMessage,resetForgotPasswordStatus,clearResetPasswordError,clearResetPasswordSuccessMessage,resetResetPasswordStatus}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus,clearForgotPasswordError,clearForgotPasswordSuccessMessage,resetForgotPasswordStatus,clearResetPasswordError,clearResetPasswordSuccessMessage,resetResetPasswordStatus,resetDemoLoginStatus}=authSlice.actions
 
 export default authSlice.reducer
 

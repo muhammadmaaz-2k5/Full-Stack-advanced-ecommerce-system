@@ -239,3 +239,36 @@ exports.checkAuth = async (req, res) => {
         res.sendStatus(500)
     }
 }
+
+exports.demoLogin = async (req, res) => {
+    try {
+        const demoEmail = "demo@example.com";
+        let demoUser = await User.findOne({ email: demoEmail });
+
+        if (!demoUser) {
+            demoUser = new User({
+                name: "Demo User",
+                email: demoEmail,
+                password: await bcrypt.hash("demopass", 10),
+                isVerified: true,
+                isAdmin: false,
+            });
+            await demoUser.save();
+        }
+
+        const secureInfo = sanitizeUser(demoUser);
+        const token = generateToken(secureInfo);
+
+        res.cookie('token', token, {
+            sameSite: config.PRODUCTION === 'true' ? "None" : 'Lax',
+            maxAge: new Date(Date.now() + (parseInt(config.COOKIE_EXPIRATION_DAYS) * 24 * 60 * 60 * 1000)),
+            httpOnly: true,
+            secure: config.PRODUCTION === 'true' ? true : false
+        });
+
+        return res.status(200).json(secureInfo);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Demo login failed" });
+    }
+}

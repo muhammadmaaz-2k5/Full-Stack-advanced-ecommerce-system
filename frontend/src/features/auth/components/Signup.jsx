@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { ecommerceOutlookAnimation, shoppingBagAnimation} from '../../../assets'
 import {useDispatch,useSelector} from 'react-redux'
 import { LoadingButton } from '@mui/lab';
-import {selectLoggedInUser, signupAsync,selectSignupStatus, selectSignupError, clearSignupError, resetSignupStatus} from '../AuthSlice'
+import {selectLoggedInUser, signupAsync,selectSignupStatus, selectSignupError, clearSignupError, resetSignupStatus, selectDemoLoginStatus, demoLoginAsync, resetDemoLoginStatus} from '../AuthSlice'
 import { toast } from 'react-toastify'
 import { MotionConfig , motion} from 'framer-motion'
 
@@ -15,6 +15,7 @@ export const Signup = () => {
   const status=useSelector(selectSignupStatus)
   const error=useSelector(selectSignupError)
   const loggedInUser=useSelector(selectLoggedInUser)
+  const demoLoginStatus=useSelector(selectDemoLoginStatus)
   const {register,handleSubmit,reset,formState: { errors }} = useForm()
   const navigate=useNavigate()
   const theme=useTheme()
@@ -57,6 +58,16 @@ export const Signup = () => {
     delete cred.confirmPassword
     dispatch(signupAsync(cred))
   }
+
+  const handleDemoLogin=()=>{
+    dispatch(demoLoginAsync())
+  }
+
+  useEffect(()=>{
+    return ()=>{
+      dispatch(resetDemoLoginStatus())
+    }
+  },[])
 
   return (
     <Stack width={'100vw'} height={'100vh'} flexDirection={'row'} sx={{overflowY:"hidden"}}>
@@ -108,6 +119,10 @@ export const Signup = () => {
 
                     <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
                       <LoadingButton sx={{height:'2.5rem'}} fullWidth loading={status==='pending'} type='submit' variant='contained'>Signup</LoadingButton>
+                    </motion.div>
+                    
+                    <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                      <LoadingButton sx={{height:'2.5rem'}} fullWidth loading={demoLoginStatus==='pending'} type='button' variant='outlined' onClick={handleDemoLogin}>Demo Login</LoadingButton>
                     </motion.div>
 
                     <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap-reverse'}>
