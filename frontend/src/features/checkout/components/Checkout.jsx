@@ -11,9 +11,6 @@ import { createOrderAsync, selectCurrentOrder, selectOrderStatus } from '../../o
 import { resetCartByUserIdAsync, selectCartItems } from '../../cart/CartSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { SHIPPING, TAXES } from '../../../constants'
-import {motion} from 'framer-motion'
-
-
 export const Checkout = () => {
 
     const status=''
@@ -67,9 +64,9 @@ export const Checkout = () => {
 
             {/* heading */}
             <Stack flexDirection={'row'} columnGap={is480?0.3:1} alignItems={'center'}>
-                <motion.div  whileHover={{x:-5}}>
+                <div>
                     <IconButton component={Link} to={"/cart"}><ArrowBackIcon fontSize={is480?"medium":'large'}/></IconButton>
-                </motion.div>
+                </div>
                 <Typography variant='h4'>Shipping Information</Typography>
             </Stack>
 
@@ -186,3 +183,4 @@ export const Checkout = () => {
     </Stack>
   )
 }
+

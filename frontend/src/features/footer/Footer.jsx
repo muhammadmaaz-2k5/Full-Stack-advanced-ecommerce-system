@@ -3,7 +3,7 @@ import { Stack } from '@mui/material'
 import React from 'react'
 import { QRCodePng, appStorePng, googlePlayPng ,facebookPng,instagramPng,twitterPng,linkedinPng} from '../../assets'
 import SendIcon from '@mui/icons-material/Send';
-import { MotionConfig, motion } from 'framer-motion';
+;
 import { Link } from 'react-router-dom';
 
 
@@ -75,12 +75,12 @@ export const Footer = () => {
                     </Stack>
 
                     <Stack mt={.6} flexDirection={'row'} columnGap={'2rem'}>
-                        <MotionConfig whileHover={{scale:1.1}} whileTap={{scale:1}}>
-                            <motion.img style={{cursor:"pointer"}} src={facebookPng} alt="Facebook" />
-                            <motion.img style={{cursor:"pointer"}} src={twitterPng} alt="Twitter" />
-                            <motion.img style={{cursor:"pointer"}} src={instagramPng} alt="Instagram" />
-                            <motion.img style={{cursor:"pointer"}} src={linkedinPng} alt="Linkedin" />
-                        </MotionConfig>
+                        
+                            <img style={{cursor:"pointer"}} src={facebookPng} alt="Facebook" />
+                            <img style={{cursor:"pointer"}} src={twitterPng} alt="Twitter" />
+                            <img style={{cursor:"pointer"}} src={instagramPng} alt="Instagram" />
+                            <img style={{cursor:"pointer"}} src={linkedinPng} alt="Linkedin" />
+                        
                     </Stack>
                 </Stack>
 
@@ -94,3 +94,4 @@ export const Footer = () => {
     </Stack>
   )
 }
+

@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { SHIPPING, TAXES } from '../../../constants'
 import { toast } from 'react-toastify'
-import {motion} from 'framer-motion'
-
 export const Cart = ({checkout}) => {
     const items=useSelector(selectCartItems)
     const subtotal=items.reduce((acc,item)=>item.product.price*item.quantity+acc,0)
@@ -114,7 +112,7 @@ export const Cart = ({checkout}) => {
             !checkout && 
             <Stack rowGap={'1rem'}>
                 <Button variant='contained' component={Link} to='/checkout'>Checkout</Button>
-                <motion.div style={{alignSelf:'center'}} whileHover={{y:2}}><Chip sx={{cursor:"pointer",borderRadius:"8px"}} component={Link} to={'/'} label="or continue shopping" variant='outlined'/></motion.div>
+                <div style={{alignSelf:'center'}}><Chip sx={{cursor:"pointer",borderRadius:"8px"}} component={Link} to={'/'} label="or continue shopping" variant='outlined'/></div>
             </Stack>
             }
     
@@ -124,3 +122,4 @@ export const Cart = ({checkout}) => {
     </Stack>
   )
 }
+

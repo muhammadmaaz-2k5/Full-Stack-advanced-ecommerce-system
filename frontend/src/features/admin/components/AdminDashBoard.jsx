@@ -13,7 +13,6 @@ import { selectCategories } from '../../categories/CategoriesSlice'
 import { ProductCard } from '../../products/components/ProductCard'
 import { deleteProductByIdAsync, fetchProductsAsync, selectProductIsFilterOpen, selectProductTotalResults, selectProducts, toggleFilters, undeleteProductByIdAsync } from '../../products/ProductSlice';
 import { Link } from 'react-router-dom';
-import {motion} from 'framer-motion'
 import ClearIcon from '@mui/icons-material/Clear';
 import { ITEMS_PER_PAGE } from '../../../constants';
 
@@ -92,7 +91,7 @@ export const AdminDashBoard = () => {
   return (
     <>
 
-    <motion.div style={{position:"fixed",backgroundColor:"white",height:"100vh",padding:'1rem',overflowY:"scroll",width:is500?"100vw":"30rem",zIndex:500}}  variants={{show:{left:0},hide:{left:-500}}} initial={'hide'} transition={{ease:"easeInOut",duration:.7,type:"spring"}} animate={isProductFilterOpen===true?"show":"hide"}>
+    <div style={{position:"fixed",backgroundColor:"white",height:"100vh",padding:'1rem',overflowY:"scroll",width:is500?"100vw":"30rem",zIndex:500}}>
 
         {/* fitlers section */}
         <Stack mb={'5rem'}  sx={{scrollBehavior:"smooth",overflowY:"scroll"}}>
@@ -102,9 +101,9 @@ export const AdminDashBoard = () => {
 
 
                 <IconButton onClick={handleFilterClose} style={{position:"absolute",top:15,right:15}}>
-                    <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}}>
+                    <div>
                         <ClearIcon fontSize='medium'/>
-                    </motion.div>
+                    </div>
                 </IconButton>
 
 
@@ -127,9 +126,9 @@ export const AdminDashBoard = () => {
                     <FormGroup onChange={handleBrandFilters}>
                         {
                             brands?.map((brand)=>(
-                                <motion.div style={{width:"fit-content"}} whileHover={{x:5}} whileTap={{scale:0.9}}>
-                                    <FormControlLabel sx={{ml:1}} control={<Checkbox whileHover={{scale:1.1}} />} label={brand.name} value={brand._id} />
-                                </motion.div>
+                                <div style={{width:"fit-content"}}>
+                                    <FormControlLabel sx={{ml:1}} control={<Checkbox />} label={brand.name} value={brand._id} />
+                                </div>
                             ))
                         }
                     </FormGroup>
@@ -148,9 +147,9 @@ export const AdminDashBoard = () => {
                     <FormGroup onChange={handleCategoryFilters}>
                         {
                             categories?.map((category)=>(
-                                <motion.div style={{width:"fit-content"}} whileHover={{x:5}} whileTap={{scale:0.9}}>
-                                    <FormControlLabel sx={{ml:1}} control={<Checkbox whileHover={{scale:1.1}} />} label={category.name} value={category._id} />
-                                </motion.div>
+                                <div style={{width:"fit-content"}}>
+                                    <FormControlLabel sx={{ml:1}} control={<Checkbox />} label={category.name} value={category._id} />
+                                </div>
                             ))
                         }
                     </FormGroup>
@@ -159,7 +158,7 @@ export const AdminDashBoard = () => {
         </Stack>
 </Stack>
 
-    </motion.div>
+    </div>
 
     <Stack rowGap={5} mt={is600?2:5} mb={'3rem'}>
 
@@ -219,3 +218,4 @@ export const AdminDashBoard = () => {
     </>
   )
 }
+

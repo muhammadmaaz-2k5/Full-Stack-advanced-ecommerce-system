@@ -9,9 +9,6 @@ import Lottie from 'lottie-react'
 import { loadingAnimation, noOrdersAnimation } from '../../../assets'
 import { toast } from 'react-toastify'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {motion} from 'framer-motion'
-
-
 export const UserOrders = () => {
 
     const dispatch=useDispatch()
@@ -84,9 +81,9 @@ export const UserOrders = () => {
                 {/* heading and navigation */}
                 <Stack flexDirection={'row'} columnGap={2} >
                     {
-                        !is480 && <motion.div whileHover={{x:-5}} style={{alignSelf:"center"}}>
+                        !is480 && <div style={{alignSelf:"center"}}>
                         <IconButton component={Link} to={"/"}><ArrowBackIcon fontSize='large'/></IconButton>
-                    </motion.div>
+                    </div>
                     }
     
 
@@ -206,3 +203,4 @@ export const UserOrders = () => {
     </Stack>
   )
 }
+

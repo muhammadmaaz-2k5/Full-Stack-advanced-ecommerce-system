@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {clearResetPasswordError, clearResetPasswordSuccessMessage, resetPasswordAsync, resetResetPasswordStatus, selectResetPasswordError, selectResetPasswordStatus, selectResetPasswordSuccessMessage } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import {MotionConfig,motion} from 'framer-motion'
 
 export const ResetPassword = () => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
@@ -65,24 +64,27 @@ export const ResetPassword = () => {
                         </Stack>
                         
                         <Stack rowGap={'.5rem'}>
-                            <MotionConfig whileHover={{y:-2}}>
+                            <div>
 
-                                <motion.div>
+                                <div>
+
                                     <TextField type='password' fullWidth sx={{mt:1}} {...register("password",{required:"Please enter a password",pattern:{value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,message:`at least 8 characters, must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number, Can contain special characters`}})} placeholder='New Password'/>
                                     {errors.password && <FormHelperText sx={{mt:1}} error>{errors.password.message}</FormHelperText>}
-                                </motion.div>
+                                </div>
                                 
-                                <motion.div>
+                                <div>
+
                                     <TextField type='password' fullWidth sx={{mt:1}} {...register("confirmPassword",{required:"Please Confirm the password",validate:(value,formValues)=>value===formValues.password || "Passwords dosen't match"})} placeholder='Confirm New Password'/>
                                     {errors.confirmPassword && <FormHelperText sx={{mt:1}} error>{errors.confirmPassword.message}</FormHelperText>}
-                                </motion.div>
+                                </div>
                                 
-                            </MotionConfig>
+                            </div>
                         </Stack>
 
-                        <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                        <div>
+
                             <LoadingButton sx={{height:"2.5rem"}} fullWidth loading={status==='pending'} type='submit' variant='contained'>Reset Password</LoadingButton>
-                        </motion.div>
+                        </div>
                 </Stack>
             </Stack>
 
@@ -90,3 +92,4 @@ export const ResetPassword = () => {
     </Stack>
   )
 }
+

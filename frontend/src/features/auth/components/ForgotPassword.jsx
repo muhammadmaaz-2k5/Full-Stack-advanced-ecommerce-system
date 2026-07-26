@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { clearForgotPasswordError, clearForgotPasswordSuccessMessage, forgotPasswordAsync,resetForgotPasswordStatus,selectForgotPasswordError, selectForgotPasswordStatus, selectForgotPasswordSuccessMessage } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { Link } from 'react-router-dom'
-import {motion} from 'framer-motion'
-
 export const ForgotPassword = () => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
     const dispatch=useDispatch()
@@ -61,24 +59,27 @@ export const ForgotPassword = () => {
                         {
                             status!=='fullfilled' &&
                         <>
-                        <motion.div whileHover={{y:-2}}>
+                        <div>
+
                             <TextField fullWidth sx={{mt:1}} {...register("email",{required:"Please enter a email",pattern:{value:/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,message:"Enter a valid email"}})} placeholder='Enter email'/>
                             {errors.email && <FormHelperText sx={{fontSize:".9rem",mt:1}} error >{errors.email.message}</FormHelperText>}
-                        </motion.div>
+                        </div>
 
-                        <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                        <div>
+
                             <LoadingButton sx={{height:'2.5rem'}} fullWidth loading={status==='pending'} type='submit' variant='contained'>Send Password Reset Link</LoadingButton>
-                        </motion.div>
+                        </div>
                         </>
                         }
                 </Stack>
             </Stack>
             
             {/* back to login navigation */}
-            <motion.div whileHover={{x:2}} whileTap={{scale:1.050}}>
+            <div>
                 <Typography sx={{textDecoration:"none",color:"text.primary",width:"fit-content"}} mt={2} to={'/login'} variant='body2' component={Link}>Go back to <span style={{color:theme.palette.primary.dark}}>login</span></Typography>
-            </motion.div>
+            </div>
         </Stack>
     </Stack>
   )
 }
+

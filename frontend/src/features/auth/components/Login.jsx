@@ -8,7 +8,6 @@ import {useDispatch,useSelector} from 'react-redux'
 import { LoadingButton } from '@mui/lab';
 import {selectLoggedInUser,loginAsync,selectLoginStatus, selectLoginError, clearLoginError, resetLoginStatus, selectDemoLoginStatus, demoLoginAsync, resetDemoLoginStatus} from '../AuthSlice'
 import { toast } from 'react-toastify'
-import {MotionConfig, motion} from 'framer-motion'
 
 export const Login = () => {
   const dispatch=useDispatch()
@@ -91,36 +90,37 @@ export const Login = () => {
 
                 <Stack mt={4} spacing={2} width={is480?"95vw":'28rem'} component={'form'} noValidate onSubmit={handleSubmit(handleLogin)}>
 
-                    <motion.div whileHover={{y:-5}}>
+                    <div>
+
                       <TextField fullWidth {...register("email",{required:"Email is required",pattern:{value:/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,message:"Enter a valid email"}})} placeholder='Email'/>
                       {errors.email && <FormHelperText sx={{mt:1}} error>{errors.email.message}</FormHelperText>}
-                    </motion.div>
+                    </div>
 
                     
-                    <motion.div whileHover={{y:-5}}>
+                    <div>
+
                       <TextField type='password' fullWidth {...register("password",{required:"Password is required"})} placeholder='Password'/>
                       {errors.password && <FormHelperText sx={{mt:1}} error>{errors.password.message}</FormHelperText>}
-                    </motion.div>
+                    </div>
                     
-                    <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                    <div>
+
                       <LoadingButton fullWidth  sx={{height:'2.5rem'}} loading={status==='pending'} type='submit' variant='contained'>Login</LoadingButton>
-                    </motion.div>
+                    </div>
                     
-                    <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                    <div>
+
                       <LoadingButton fullWidth  sx={{height:'2.5rem'}} loading={demoLoginStatus==='pending'} type='button' variant='outlined' onClick={handleDemoLogin}>Demo Login</LoadingButton>
-                    </motion.div>
+                    </div>
 
-                    <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap-reverse'} >
+<Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap-reverse'} >
 
-                      <MotionConfig whileHover={{x:2}} whileTap={{scale:1.050}}>
-                          <motion.div>
-                              <Typography mr={'1.5rem'} sx={{textDecoration:"none",color:"text.primary"}} to={'/forgot-password'} component={Link}>Forgot password</Typography>
-                          </motion.div>
+                        <div>
 
-                          <motion.div>
+                            <Typography mr={'1.5rem'} sx={{textDecoration:"none",color:"text.primary"}} to={'/forgot-password'} component={Link}>Forgot password</Typography>
+
                             <Typography sx={{textDecoration:"none",color:"text.primary"}} to={'/signup'} component={Link}>Don't have an account? <span style={{color:theme.palette.primary.dark}}>Register</span></Typography>
-                          </motion.div>
-                      </MotionConfig>
+                        </div>
 
                     </Stack>
 
@@ -129,3 +129,4 @@ export const Login = () => {
     </Stack>
   )
 }
+

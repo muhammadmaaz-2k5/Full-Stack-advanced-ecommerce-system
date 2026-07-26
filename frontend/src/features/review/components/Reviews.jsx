@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
 import CreateIcon from '@mui/icons-material/Create';
-import {MotionConfig, motion} from 'framer-motion'
 import { useTheme } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -151,30 +150,31 @@ export const Reviews = ({productId,averageRating}) => {
                     
                     <Stack>
                         <Typography gutterBottom variant='body2'>How much did you like the product?</Typography>
-                        <motion.div style={{width:"fit-content"}} whileHover={{scale:1.050,x:2}} whileTap={{scale:1}}>
+                        <div style={{width:"fit-content"}}>
                             <Rating  size='large' value={value} onChange={(e) => setValue(e.target.value)}/>
-                        </motion.div>
+                        </div>
                     </Stack>
                     
                     <Stack flexDirection={'row'} alignSelf={'flex-end'} alignItems={'center'} columnGap={'.2rem'}>
-                        <MotionConfig whileTap={{scale:1}} whileHover={{scale:1.050}}>
-                            <motion.div>
+                        
+                            <div>
                                 <LoadingButton sx={{textTransform:"none",fontSize:is480?"":"1rem"}} size={is480?"small":""} loading={reviewStatus==='pending'} type='submit' variant='contained'>Add review</LoadingButton>
-                            </motion.div>
-                            <motion.div>
+                            </div>
+                            <div>
                                 <Button onClick={()=>setWriteReview(false)} color='error' size={is480?"small":""} variant='outlined' sx={{textTransform:"none",fontSize:is480?"":"1rem"}}>Cancel</Button>
-                            </motion.div>
-                        </MotionConfig>
+                            </div>
+                        
                     </Stack>
 
                 </Stack>
                 )
                 :
                 !loggedInUser?.isAdmin?
-                <motion.div onClick={()=>setWriteReview(!writeReview)} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{width:"fit-content"}}>
+                <div onClick={()=>setWriteReview(!writeReview)} style={{width:"fit-content"}}>
                         <Button  disableElevation size={is480?"medium":'large'} variant='contained' sx={{color:theme.palette.primary.light,textTransform:"none",fontSize:"1rem",borderRadius:'6px'}}  startIcon={<CreateIcon/>}>Write a review</Button>
-                </motion.div>:""
+                </div>:""
             }
         </Stack>
   )
 }
+

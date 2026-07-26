@@ -8,7 +8,6 @@ import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { fetchReviewsByProductIdAsync,resetReviewFetchStatus,selectReviewFetchStatus,selectReviews,} from '../../review/ReviewSlice'
 import { Reviews } from '../../review/components/Reviews'
 import {toast} from 'react-toastify'
-import {MotionConfig, motion} from 'framer-motion'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
@@ -185,9 +184,9 @@ export const ProductDetails = () => {
                         {!is1420 && <Stack sx={{display:"flex",rowGap:'1.5rem',height:"100%",overflowY:"scroll"}}>
                             {
                                 product && product.images.map((image,index)=>(
-                                    <motion.div  whileHover={{scale:1.1}} whileTap={{scale:1}} style={{width:"200px",cursor:"pointer"}} onClick={()=>setSelectedImageIndex(index)}>
+                                    <div style={{width:"200px",cursor:"pointer"}} onClick={()=>setSelectedImageIndex(index)}>
                                         <img style={{width:"100%",objectFit:"contain"}} src={image} alt={`${product.title} image`} />
-                                    </motion.div>
+                                    </div>
                                 ))
                             }
                         </Stack>}
@@ -285,9 +284,9 @@ export const ProductDetails = () => {
                                 <Stack flexDirection={'row'} columnGap={is387?".5rem":"1rem"}>
                                     {
                                         SIZES.map((size)=>(
-                                            <motion.div onClick={()=>handleSizeSelect(size)} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{border:selectedSize===size?'':"1px solid grayText",borderRadius:"8px",width:"30px",height:"30px",display:"flex",justifyContent:"center",alignItems:"center",cursor:"pointer",padding:"1.2rem",backgroundColor:selectedSize===size?"#DB4444":"whitesmoke",color:selectedSize===size?"white":""}}>
+                                            <div onClick={()=>handleSizeSelect(size)} style={{border:selectedSize===size?'':"1px solid grayText",borderRadius:"8px",width:"30px",height:"30px",display:"flex",justifyContent:"center",alignItems:"center",cursor:"pointer",padding:"1.2rem",backgroundColor:selectedSize===size?"#DB4444":"whitesmoke",color:selectedSize===size?"white":""}}>
                                                 <p>{size}</p>
-                                            </motion.div>
+                                            </div>
                                         ))
                                     }
                                 </Stack>
@@ -299,11 +298,11 @@ export const ProductDetails = () => {
                                 {/* qunatity */}
                                 <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
                                     
-                                    <MotionConfig whileHover={{scale:1.050}} whileTap={{scale:1}}>
-                                        <motion.button onClick={handleDecreaseQty}  style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"",color:"black",outline:"none",border:'1px solid black',borderRadius:"8px"}}>-</motion.button>
+                                    
+                                        <button onClick={handleDecreaseQty}  style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"",color:"black",outline:"none",border:'1px solid black',borderRadius:"8px"}}>-</button>
                                         <p style={{margin:"0 1rem",fontSize:"1.1rem",fontWeight:'400'}}>{quantity}</p>
-                                        <motion.button onClick={handleIncreaseQty} style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>+</motion.button>
-                                    </MotionConfig>
+                                        <button onClick={handleIncreaseQty} style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>+</button>
+                                    
 
                                 </Stack>
                                 
@@ -311,13 +310,13 @@ export const ProductDetails = () => {
                                 {
                                     isProductAlreadyInCart?
                                     <button style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}} onClick={()=>navigate("/cart")}>In Cart</button>
-                                    :<motion.button whileHover={{scale:1.050}} whileTap={{scale:1}} onClick={handleAddToCart} style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>Add To Cart</motion.button>
+                                    :<button onClick={handleAddToCart} style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>Add To Cart</button>
                                 }
 
                                 {/* wishlist */}
-                                <motion.div style={{border:"1px solid grayText",borderRadius:"4px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                                <div style={{border:"1px solid grayText",borderRadius:"4px",display:"flex",justifyContent:"center",alignItems:"center"}}>
                                     <Checkbox checked={isProductAlreadyinWishlist} onChange={(e)=>handleAddRemoveFromWishlist(e)} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{color:'red'}} />} />
-                                </motion.div>
+                                </div>
 
 
                             </Stack>
@@ -370,3 +369,4 @@ export const ProductDetails = () => {
 
   )
 }
+

@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectWishlistItems } from '../../wishlist/WishlistSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
 import { addToCartAsync,selectCartItems } from '../../cart/CartSlice';
-import {motion} from 'framer-motion'
-
 export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handleAddRemoveFromWishlist,isWishlistCard,isAdminCard}) => {
 
 
@@ -62,9 +60,9 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
                     <Typography variant='h6' fontWeight={400}>{title}</Typography>
                     {
                     !isAdminCard && 
-                    <motion.div whileHover={{scale:1.3,y:-10,zIndex:100}} whileTap={{scale:1}} transition={{duration:.4,type:"spring"}}>
+                    <div>
                         <Checkbox onClick={(e)=>e.stopPropagation()} checked={isProductAlreadyinWishlist} onChange={(e)=>handleAddRemoveFromWishlist(e,id)} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{color:'red'}} />} />
-                    </motion.div>
+                    </div>
                     }
                 </Stack>
                 <Typography color={"text.secondary"}>{brand}</Typography>
@@ -77,11 +75,11 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
                     'Added to cart'
                     :
                     !isAdminCard &&
-                    <motion.button  whileHover={{scale:1.030}} whileTap={{scale:1}} onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:is408?'.9rem':is488?'.7rem':is500?'.8rem':'.9rem'}}>
+                    <button onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:is408?'.9rem':is488?'.7rem':is500?'.8rem':'.9rem'}}>
                         <div style={{display:"flex",alignItems:"center",columnGap:".5rem"}}>
                             <p>Add To Cart</p>
                         </div>
-                    </motion.button>
+                    </button>
                     :''
                 }
                 
@@ -101,3 +99,4 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
     </>
   )
 }
+
