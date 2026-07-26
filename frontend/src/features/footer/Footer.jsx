@@ -1,9 +1,7 @@
-import { Box, IconButton, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { Stack } from '@mui/material'
+import { Box, IconButton, TextField, Typography, useMediaQuery, useTheme, Stack } from '@mui/material'
 import React from 'react'
 import { QRCodePng, appStorePng, googlePlayPng ,facebookPng,instagramPng,twitterPng,linkedinPng} from '../../assets'
 import SendIcon from '@mui/icons-material/Send';
-;
 import { Link } from 'react-router-dom';
 
 
@@ -39,48 +37,28 @@ export const Footer = () => {
                 </Stack>
 
                 <Stack rowGap={'1rem'} padding={'1rem'}>
-                    <Typography  variant='h6'>Account</Typography>
-                    <Typography sx={labelStyles}>My Account</Typography>
-                    <Typography sx={labelStyles}>Login / Register</Typography>
-                    <Typography sx={labelStyles}>Cart</Typography>
-                    <Typography sx={labelStyles}>Wishlist</Typography>
-                    <Typography sx={labelStyles}>Shop</Typography>
-                </Stack>
 
-                <Stack rowGap={'1rem'} padding={'1rem'}>
-                    <Typography  variant='h6'>Quick Links</Typography>
-                    <Typography sx={labelStyles}>Privacy Policy</Typography>
-                    <Typography sx={labelStyles}>Terms Of Use</Typography>
-                    <Typography sx={labelStyles}>FAQ</Typography>
-                    <Typography sx={labelStyles}>Contact</Typography>
-                </Stack>
-
-                <Stack rowGap={'1rem'} padding={'1rem'}>
-                    <Typography  variant='h6'>Download App</Typography>
-                    <Typography sx={{...labelStyles,color:"graytext",fontWeight:500}}>Save $3 with App New User Only</Typography>
-                    <Stack flexDirection={'row'} columnGap={'.5rem'}>
-
-                        <Box width={'100px'} height={"100px"}>
-                            <img src={QRCodePng} height={'100%'} width={'100%'} style={{objectFit:'contain'}} alt="QR Code"/>
-                        </Box>
-
-                        <Stack justifyContent={'space-around'}>
-                            <Stack>
-                                <img style={{width:"100%",height:"100%",cursor:"pointer"}} src={googlePlayPng} alt="GooglePlay" />
-                            </Stack>
-                            <Stack>
-                                <img style={{width:"100%",height:'100%',cursor:"pointer"}} src={appStorePng} alt="AppStore" />
-                            </Stack>
-                        </Stack>
+                    <Stack rowGap={'1rem'}>
+                        <img style={{width:"100%",height:"100%",cursor:"pointer"}} src={googlePlayPng} alt="GooglePlay" />
                     </Stack>
+                    <Stack rowGap={'1rem'}>
+                        <img style={{width:"100%",height:'100%',cursor:"pointer"}} src={appStorePng} alt="AppStore" />
+                    </Stack>
+                </Stack>
 
-                    <Stack mt={.6} flexDirection={'row'} columnGap={'2rem'}>
-                        
-                            <img style={{cursor:"pointer"}} src={facebookPng} alt="Facebook" />
-                            <img style={{cursor:"pointer"}} src={twitterPng} alt="Twitter" />
-                            <img style={{cursor:"pointer"}} src={instagramPng} alt="Instagram" />
-                            <img style={{cursor:"pointer"}} src={linkedinPng} alt="Linkedin" />
-                        
+                <Stack rowGap={'1rem'} padding={'1rem'}>
+
+                    <Stack>
+                        <img style={{cursor:"pointer"}} src={facebookPng} alt="Facebook" />
+                    </Stack>
+                    <Stack>
+                        <img style={{cursor:"pointer"}} src={twitterPng} alt="Twitter" />
+                    </Stack>
+                    <Stack>
+                        <img style={{cursor:"pointer"}} src={instagramPng} alt="Instagram" />
+                    </Stack>
+                    <Stack>
+                        <img style={{cursor:"pointer"}} src={linkedinPng} alt="Linkedin" />
                     </Stack>
                 </Stack>
 
@@ -94,4 +72,3 @@ export const Footer = () => {
     </Stack>
   )
 }
-

@@ -140,7 +140,6 @@ export const Signup = () => {
 
                             <Typography sx={{textDecoration:"none",color:"text.primary"}} to={'/login'} component={Link}>Already a member? <span style={{color:theme.palette.primary.dark}}>Login</span></Typography>
                         </div>
-                        </div>
                     </Stack>
 
                 </Stack>
