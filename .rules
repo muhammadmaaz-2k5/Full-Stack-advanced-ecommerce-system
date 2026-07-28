@@ -1,0 +1,96 @@
+# .rules — Nimbus eCommerce Platform
+
+# ═══════════════════════════════════════════════════════════════
+# PROJECT RULES & CONVENTIONS
+# Nimbus eCommerce Platform
+# ═══════════════════════════════════════════════════════════════
+
+# ─── TECH STACK ─────────────────────────────────────────────────
+frontend: Next.js 13 (App Router) + React 18 + TypeScript
+styling: Tailwind CSS + Shadcn UI + tailwindcss-animate
+icons: lucide-react
+database: Supabase (PostgreSQL) + @supabase/supabase-js
+auth: Supabase Auth (email/password, JWT)
+charts: recharts
+forms: react-hook-form + zod
+toasts: sonner
+
+# ─── FORBIDDEN ──────────────────────────────────────────────────
+no_purple: NEVER use purple, indigo, or violet hues unless explicitly requested
+no_external_ui_libs: Do NOT install UI theme/icon libraries beyond Shadcn + lucide-react
+no_supabase_cli: NEVER use the Supabase CLI — use MCP tools only
+no_raw_ddl: NEVER run DDL outside mcp__supabase__apply_migration
+no_drop: NEVER DROP tables or DELETE columns — data loss is unacceptable
+no_transactions: NEVER use BEGIN/COMMIT/ROLLBACK (DO $$ blocks are OK)
+no_env_exports: NEVER reference or expose .env values in responses
+no_emojis: NEVER use emojis in responses or code comments
+
+# ─── DATABASE RULES ─────────────────────────────────────────────
+rls_required: EVERY table must have RLS enabled
+policy_pattern: 4 separate policies (SELECT/INSERT/UPDATE/DELETE) — never FOR ALL
+owner_default: user_id columns must DEFAULT auth.uid()
+anon_access: no-auth apps use TO anon, authenticated; auth apps use TO authenticated
+maybeSingle: use maybeSingle() for zero-or-one queries, never single()
+idempotent: migrations must be safe to re-run (IF NOT EXISTS, DROP POLICY IF EXISTS)
+
+# ─── CODE CONVENTIONS ───────────────────────────────────────────
+server_first: Default to Server Components; add "use client" only when needed
+strict_ts: TypeScript strict mode — explicit types on all function params
+import_all: Every referenced symbol must have a matching import
+no_comments: Default to no comments — only explain non-obvious WHY
+no_dead_code: Delete replaced code; no orphaned files or commented-out blocks
+match_codebase: Match existing naming, layout, and error-handling patterns
+reuse_first: Search for existing utilities before writing new ones
+file_size: Keep files at a manageable size for readability
+
+# ─── DESIGN RULES ──────────────────────────────────────────────
+color_system: 6+ color ramps (primary, secondary, accent, success, warning, error)
+spacing: 8px spacing system
+line_height: 150% body, 120% headings
+font_weights: 3 weights maximum
+responsive: Mobile-first, breakpoints at sm/md/lg/xl
+contrast: WCAG AA contrast ratios on all backgrounds
+animations: Tasteful micro-interactions, hover states, transitions
+no_cookie_cutter: Designs must be beautiful and production-worthy
+
+# ─── BUILD & VERIFY ─────────────────────────────────────────────
+build_required: Run "npm run build" before completing any task
+fix_failures: Fix build/typecheck errors before reporting done
+no_false_success: Never claim success when checks show failures
+verify_ui: Use the dev server to verify UI changes in browser
+report_honestly: Describe problems in plain words — never hide failures
+
+# ─── AUTH RULES ─────────────────────────────────────────────────
+email_password_only: Default to Supabase email/password — no magic links or social
+email_confirmation_off: Email confirmation stays OFF
+build_full_flow: If auth is needed, build both sign-in AND sign-up
+onauth_deadlock: Wrap async work in onAuthStateChange in IIFE
+
+# ─── EDGE FUNCTIONS ─────────────────────────────────────────────
+cors_required: Every response must include the full CORS header set
+try_catch: Always wrap function body in try/catch
+npm_prefix: Use npm: or jsr: prefixes — never bare specifiers
+no_deno_std: Use Deno.serve, never import from deno.land/std
+write_first: Write function to disk BEFORE deploying via MCP tool
+
+# ─── SECURITY ───────────────────────────────────────────────────
+jwt_auth: JWT-based authentication
+role_permissions: Role-based access via customers.role column
+audit_logs: All admin actions should be traceable
+xss_protection: React escapes by default; never dangerouslySetInnerHTML
+sql_injection: Supabase client uses parameterized queries
+rate_limiting: Apply at edge function level for sensitive endpoints
+
+# ─── USER ROLES ─────────────────────────────────────────────────
+# customer         — shop, cart, checkout, own orders/wishlist/addresses
+# admin            — full access + admin dashboard
+# sales_manager    — orders, CRM, reports (read)
+# warehouse_manager — inventory, shipping, stock adjustments
+# accountant       — invoices, financial reports
+
+# ─── TEST ACCOUNTS ──────────────────────────────────────────────
+# customer@nimbus.shop    / NimbusTest2025!
+# admin@nimbus.shop       / NimbusTest2025!
+# sales@nimbus.shop       / NimbusTest2025!
+# warehouse@nimbus.shop   / NimbusTest2025!
+# accountant@nimbus.shop  / NimbusTest2025!
